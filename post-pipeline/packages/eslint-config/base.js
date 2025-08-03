@@ -1,8 +1,10 @@
-import js from "@eslint/js";
-import eslintConfigPrettier from "eslint-config-prettier";
-import turboPlugin from "eslint-plugin-turbo";
-import tseslint from "typescript-eslint";
-import onlyWarn from "eslint-plugin-only-warn";
+import js from '@eslint/js';
+import eslintConfigPrettier from 'eslint-config-prettier';
+import onlyWarn from 'eslint-plugin-only-warn';
+import eslintPluginPrettier from 'eslint-plugin-prettier';
+import turboPlugin from 'eslint-plugin-turbo';
+import unusedImports from 'eslint-plugin-unused-imports';
+import tseslint from 'typescript-eslint';
 
 /**
  * A shared ESLint configuration for the repository.
@@ -15,10 +17,14 @@ export const config = [
   ...tseslint.configs.recommended,
   {
     plugins: {
+      prettier: eslintPluginPrettier,
+      'unused-imports': unusedImports,
       turbo: turboPlugin,
     },
     rules: {
-      "turbo/no-undeclared-env-vars": "warn",
+      ...eslintPluginPrettier.configs.recommended.rules,
+      'unused-imports/no-unused-imports': 'warn',
+      'turbo/no-undeclared-env-vars': 'warn',
     },
   },
   {
@@ -27,6 +33,6 @@ export const config = [
     },
   },
   {
-    ignores: ["dist/**"],
+    ignores: ['dist/**'],
   },
 ];

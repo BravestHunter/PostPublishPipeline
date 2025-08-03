@@ -1,3 +1,3 @@
-import nodeConfig from "@repo/eslint-config/node";
+import { config } from '@repo/eslint-config/base';
 
-export default [...nodeConfig, { ignores: ["dist/"] }];
+export default [...config, { ignores: ['dist/'] }];

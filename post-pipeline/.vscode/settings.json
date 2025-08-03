@@ -4,5 +4,18 @@
       "mode": "auto"
     }
   ],
-  "editor.formatOnSave": true
+
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  "prettier.requireConfig": true,
+
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "always",
+    "source.fixAll.eslint": "always"
+  },
+  "typescript.format.enable": false,
+
+  "eslint.useFlatConfig": true,
+  "eslint.validate": ["javascript", "typescript"]
 }
