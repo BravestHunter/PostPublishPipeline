@@ -1,0 +1,112 @@
+{
+	"info": {
+		"_postman_id": "759e268e-75bb-4391-bda9-32bbe256c346",
+		"name": "PostAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34993370"
+	},
+	"item": [
+		{
+			"name": "HealthCheck",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{PostApiAddress}}/healthz",
+					"host": [
+						"{{PostApiAddress}}"
+					],
+					"path": [
+						"healthz"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetPost",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "text",
+							"value": "Welcome to Warsaw!",
+							"type": "text"
+						},
+						{
+							"key": "socialPlatform",
+							"value": "Instagram",
+							"type": "text"
+						},
+						{
+							"key": "mediaFiles",
+							"type": "file",
+							"src": "postman-cloud:///1ef9c6ab-1e6b-4cd0-8919-416388fe25c5"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{PostApiAddress}}/posts/688fbfebad538292071be6b5",
+					"host": [
+						"{{PostApiAddress}}"
+					],
+					"path": [
+						"posts",
+						"688fbfebad538292071be6b5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreatePost",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "text",
+							"value": "Welcome to Warsaw!",
+							"type": "text"
+						},
+						{
+							"key": "socialPlatform",
+							"value": "Instagram",
+							"type": "text"
+						},
+						{
+							"key": "mediaFiles",
+							"type": "file",
+							"src": "postman-cloud:///1ef9c6ab-1e6b-4cd0-8919-416388fe25c5"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{PostApiAddress}}/posts",
+					"host": [
+						"{{PostApiAddress}}"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "PostApiAddress",
+			"value": "http://localhost:4000",
+			"type": "default"
+		}
+	]
+}
