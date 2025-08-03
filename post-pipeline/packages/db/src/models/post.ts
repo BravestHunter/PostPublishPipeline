@@ -1,13 +1,14 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, Schema, Types } from 'mongoose';
 
 export interface MediaFile {
   filename: string;
   mimetype: string;
   size: number;
-  path?: string;
+  path: string;
 }
 
 export interface PostDoc extends Document {
+  _id: Types.ObjectId;
   text: string;
   socialPlatform: string;
   mediaFiles?: MediaFile[];

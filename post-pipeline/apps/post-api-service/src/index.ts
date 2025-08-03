@@ -42,7 +42,7 @@ app.post('/posts', upload.array('mediaFiles', 5), async (req, res) => {
     res.status(201).json({ id: post._id.toString() });
   } catch (err) {
     if (err instanceof z.ZodError) {
-      return res.status(400).json({ error: err.errors });
+      return res.status(400).json({ error: err.issues });
     }
     console.error(err);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -70,4 +70,4 @@ app.get('/posts/:id', async (req, res) => {
 });
 
 const port = process.env.PORT ?? 4000;
-app.listen(port, () => console.log(`[post-service] listening on :${port}`));
+app.listen(port, () => console.log(`[post-api-service] listening on :${port}`));

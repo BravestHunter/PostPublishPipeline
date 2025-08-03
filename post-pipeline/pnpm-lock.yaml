@@ -30,7 +30,7 @@ importers:
         specifier: ^5.9.2
         version: 5.9.2
 
-  apps/content-filter:
+  apps/content-filter-service:
     dependencies:
       '@google/genai':
         specifier: ^1.12.0
@@ -61,7 +61,7 @@ importers:
         specifier: ^8.5.0
         version: 8.5.0(postcss@8.4.31)(typescript@5.9.2)
 
-  apps/post-service:
+  apps/post-api-service:
     dependencies:
       '@repo/config':
         specifier: workspace:^
@@ -75,9 +75,6 @@ importers:
       '@repo/queue':
         specifier: workspace:^
         version: link:../../packages/queue
-      dotenv:
-        specifier: ^17.2.1
-        version: 17.2.1
       express:
         specifier: ^4.21.2
         version: 4.21.2
@@ -104,7 +101,7 @@ importers:
         specifier: ^8.5.0
         version: 8.5.0(postcss@8.4.31)(typescript@5.9.2)
 
-  apps/social-post-service:
+  apps/publish-service:
     dependencies:
       '@repo/config':
         specifier: workspace:^
@@ -115,9 +112,6 @@ importers:
       '@repo/queue':
         specifier: workspace:^
         version: link:../../packages/queue
-      dotenv:
-        specifier: ^17.2.1
-        version: 17.2.1
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:^
