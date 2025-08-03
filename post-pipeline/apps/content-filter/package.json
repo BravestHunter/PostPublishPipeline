@@ -12,10 +12,10 @@
   },
   "dependencies": {
     "@google/genai": "^1.12.0",
+    "@repo/config": "workspace:^",
     "@repo/db": "workspace:^",
     "@repo/file-storage": "workspace:^",
-    "@repo/queue": "workspace:^",
-    "dotenv": "^17.2.1"
+    "@repo/queue": "workspace:^"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:^",

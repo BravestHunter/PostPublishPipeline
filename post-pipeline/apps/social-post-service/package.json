@@ -11,9 +11,9 @@
     "start": "node dist/index.js"
   },
   "dependencies": {
+    "@repo/config": "workspace:^",
     "@repo/db": "workspace:^",
-    "@repo/queue": "workspace:^",
-    "dotenv": "^17.2.1"
+    "@repo/queue": "workspace:^"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:^",

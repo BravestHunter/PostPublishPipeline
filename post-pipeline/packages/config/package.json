@@ -1,5 +1,5 @@
 {
-  "name": "@repo/db",
+  "name": "@repo/config",
   "private": true,
   "type": "module",
   "exports": {
@@ -15,7 +15,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "mongoose": "^8.0.0"
+    "dotenv": "^17.2.1"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:^",

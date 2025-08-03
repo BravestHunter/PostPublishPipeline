@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import '@repo/config';
 import { connectToDatabase, PostRepository } from '@repo/db';
 import { runConsumer, TOPICS } from '@repo/queue';
 

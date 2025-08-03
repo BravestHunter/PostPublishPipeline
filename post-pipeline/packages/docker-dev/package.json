@@ -2,6 +2,7 @@
   "name": "@repo/docker-dev",
   "private": true,
   "scripts": {
+    "pull": "docker compose pull --include-deps --quiet",
     "dev": "docker-compose up",
     "cleanup": "docker compose down -v --remove-orphans && docker system prune -f"
   }

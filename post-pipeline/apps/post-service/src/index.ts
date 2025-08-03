@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import '@repo/config';
 import { connectToDatabase, PostRepository } from '@repo/db';
 import { upload } from '@repo/file-storage';
 import { connectProducer, publishPostCreated } from '@repo/queue';

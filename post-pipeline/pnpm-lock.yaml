@@ -35,6 +35,9 @@ importers:
       '@google/genai':
         specifier: ^1.12.0
         version: 1.12.0
+      '@repo/config':
+        specifier: workspace:^
+        version: link:../../packages/config
       '@repo/db':
         specifier: workspace:^
         version: link:../../packages/db
@@ -44,9 +47,6 @@ importers:
       '@repo/queue':
         specifier: workspace:^
         version: link:../../packages/queue
-      dotenv:
-        specifier: ^17.2.1
-        version: 17.2.1
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:^
@@ -63,6 +63,9 @@ importers:
 
   apps/post-service:
     dependencies:
+      '@repo/config':
+        specifier: workspace:^
+        version: link:../../packages/config
       '@repo/db':
         specifier: workspace:^
         version: link:../../packages/db
@@ -103,6 +106,9 @@ importers:
 
   apps/social-post-service:
     dependencies:
+      '@repo/config':
+        specifier: workspace:^
+        version: link:../../packages/config
       '@repo/db':
         specifier: workspace:^
         version: link:../../packages/db
@@ -123,11 +129,24 @@ importers:
         specifier: ^8.5.0
         version: 8.5.0(postcss@8.4.31)(typescript@5.9.2)
 
-  packages/db:
+  packages/config:
     dependencies:
       dotenv:
-        specifier: ^16.4.0
-        version: 16.6.1
+        specifier: ^17.2.1
+        version: 17.2.1
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:^
+        version: link:../eslint-config
+      '@repo/typescript-config':
+        specifier: workspace:^
+        version: link:../typescript-config
+      tsup:
+        specifier: ^8.5.0
+        version: 8.5.0(postcss@8.4.31)(typescript@5.9.2)
+
+  packages/db:
+    dependencies:
       mongoose:
         specifier: ^8.0.0
         version: 8.17.0
@@ -1315,10 +1334,6 @@ packages:
 
   dotenv@16.0.3:
     resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
-    engines: {node: '>=12'}
-
-  dotenv@16.6.1:
-    resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
     engines: {node: '>=12'}
 
   dotenv@17.2.1:
@@ -3946,8 +3961,6 @@ snapshots:
   destroy@1.2.0: {}
 
   dotenv@16.0.3: {}
-
-  dotenv@16.6.1: {}
 
   dotenv@17.2.1: {}
 
