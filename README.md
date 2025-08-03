@@ -29,9 +29,9 @@ The repository models a **Post publishing pipeline** consisting of three asynchr
 
 A **Post** contains:
 
-* `text` — the post body
-* `mediaFiles[]` — references to media stored in **MinIO/S3**
-* `socialPlatform` — destination platform (e.g. *x*, *threads*)
+* `text` - the post body
+* `mediaFiles[]` - references to media stored in **MinIO/S3**
+* `socialPlatform` - destination platform (e.g. *x*, *threads*)
 
 Posts are stored in **MongoDB**; media files are stored in **MinIO** (S3‑compatible object storage).
 
@@ -39,12 +39,13 @@ Because moderation can be time‑consuming, all inter‑service traffic is *even
 
 ## Tech Stack
 
-* **TypeScript** — primary language for all packages
-* **Turborepo** — monorepo orchestration
-* **Kafka** — message broker between services
-* **MongoDB** — primary database
-* **MinIO** — local S3 simulation for media assets
-* **Docker Compose** — spins up the entire environment locally
+* **TypeScript** - primary language for all packages
+* **Turborepo** - monorepo orchestration
+* **Gemini API** - post content moderation
+* **Kafka** - message broker between services
+* **MongoDB** - primary database
+* **MinIO** - local S3 simulation for media assets
+* **Docker Compose** - spins up the entire environment locally
 
 ## Development
 
