@@ -19,22 +19,28 @@ export class GeminiModerationService {
     this.client = new GoogleGenAI({ apiKey });
   }
 
-  async checkText(post: Post): Promise<ModerationResult> {
+  async checkPost(post: Post): Promise<ModerationResult> {
     const moderationPrompt = `
       You are a strict content-moderation assistant for a user-generated content pipeline.
       Given the post text and a social platform name, decide whether the post is ACCEPTABLE under the following community guidelines for ${post.socialPlatform}. The guidelines prohibit content that is:
-      - Spam, deceptive, or misleading.
-      - Promoting specific products or services without proper tags (e.g., #ad).
+      - Spam.
 
       Return **ONLY** JSON with these keys:
       - isApproved — true or false
       - reason — a short sentence (English) explaining the decision.
-    `;
+    `.trim();
     const fullPrompt = `${moderationPrompt}\n\nPost Text: "${post.text}"\nSocial Platform: "${post.socialPlatform}"`;
+
+    const mediaParts = post.mediaFiles?.map((file) => ({
+      inlineData: {
+        mimeType: file.mimetype,
+        data: file.buffer.toString("base64"),
+      },
+    })) ?? [];
 
     const requestParameters: GenerateContentParameters = {
       model: "gemini-2.5-pro",
-      contents: [{ role: "user", parts: [{ text: fullPrompt }] }],
+      contents: [{ role: "user", parts: [{ text: fullPrompt }, ...mediaParts] }],
       config: {
         safetySettings: [
           {
@@ -54,6 +60,11 @@ export class GeminiModerationService {
             threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
           },
         ],
+        responseMimeType: "application/json",
+        responseJsonSchema: {
+          isApproved: Boolean,
+          reason: String
+        }
       },
     };
 
@@ -80,7 +91,6 @@ export class GeminiModerationService {
       const cleanedText = generatedText.replace(/```json|```/g, '').trim();
 
        // 3. Now, parse the JSON string from the generated text.
-      let result: ModerationResult;
       try {
         const result: ModerationResult = JSON.parse(cleanedText);
         return result;
