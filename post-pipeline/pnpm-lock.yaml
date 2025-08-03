@@ -38,15 +38,15 @@ importers:
       '@repo/db':
         specifier: workspace:^
         version: link:../../packages/db
+      '@repo/file-storage':
+        specifier: workspace:^
+        version: link:../../packages/file-storage
+      '@repo/queue':
+        specifier: workspace:^
+        version: link:../../packages/queue
       dotenv:
         specifier: ^17.2.1
         version: 17.2.1
-      express:
-        specifier: ^4.21.2
-        version: 4.21.2
-      multer:
-        specifier: ^2.0.2
-        version: 2.0.2
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:^
@@ -54,9 +54,6 @@ importers:
       '@repo/typescript-config':
         specifier: workspace:^
         version: link:../../packages/typescript-config
-      '@types/express':
-        specifier: ^5.0.3
-        version: 5.0.3
       '@types/multer':
         specifier: ^2.0.0
         version: 2.0.0
@@ -72,6 +69,9 @@ importers:
       '@repo/file-storage':
         specifier: workspace:^
         version: link:../../packages/file-storage
+      '@repo/queue':
+        specifier: workspace:^
+        version: link:../../packages/queue
       dotenv:
         specifier: ^17.2.1
         version: 17.2.1
@@ -97,6 +97,28 @@ importers:
       '@types/multer':
         specifier: ^2.0.0
         version: 2.0.0
+      tsup:
+        specifier: ^8.5.0
+        version: 8.5.0(postcss@8.4.31)(typescript@5.9.2)
+
+  apps/social-post-service:
+    dependencies:
+      '@repo/db':
+        specifier: workspace:^
+        version: link:../../packages/db
+      '@repo/queue':
+        specifier: workspace:^
+        version: link:../../packages/queue
+      dotenv:
+        specifier: ^17.2.1
+        version: 17.2.1
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:^
+        version: link:../../packages/eslint-config
+      '@repo/typescript-config':
+        specifier: workspace:^
+        version: link:../../packages/typescript-config
       tsup:
         specifier: ^8.5.0
         version: 8.5.0(postcss@8.4.31)(typescript@5.9.2)
@@ -163,6 +185,22 @@ importers:
       multer-s3:
         specifier: ^3.0.1
         version: 3.0.1(@aws-sdk/client-s3@3.859.0)
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:^
+        version: link:../eslint-config
+      '@repo/typescript-config':
+        specifier: workspace:^
+        version: link:../typescript-config
+      tsup:
+        specifier: ^8.5.0
+        version: 8.5.0(postcss@8.4.31)(typescript@5.9.2)
+
+  packages/queue:
+    dependencies:
+      kafkajs:
+        specifier: ^2.2.4
+        version: 2.2.4
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:^
@@ -1682,6 +1720,10 @@ packages:
 
   jws@4.0.0:
     resolution: {integrity: sha512-KDncfTmOZoOMTFG4mBlG0qUIOlc03fmzH+ru6RgYVZhPkyiy/92Owlt/8UEN+a4TXR1FQetfIpJE8ApdvdVxTg==}
+
+  kafkajs@2.2.4:
+    resolution: {integrity: sha512-j/YeapB1vfPT2iOIUn/vxdyKEuhuY2PxMBvf5JWux6iSaukAccrMtXEY/Lb7OvavDhOWME589bpLrEdnVHjfjA==}
+    engines: {node: '>=14.0.0'}
 
   kareem@2.6.3:
     resolution: {integrity: sha512-C3iHfuGUXK2u8/ipq9LfjFfXFxAZMQJJq7vLS45r3D9Y2xQ/m4S8zaR4zMLFWh9AsNPXmcFfUDhTEO8UIC/V6Q==}
@@ -4371,6 +4413,8 @@ snapshots:
     dependencies:
       jwa: 2.0.1
       safe-buffer: 5.2.1
+
+  kafkajs@2.2.4: {}
 
   kareem@2.6.3: {}
 

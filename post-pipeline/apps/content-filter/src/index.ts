@@ -1,44 +1,60 @@
-import express from 'express';
 import 'dotenv/config';
-import multer from 'multer';
-import Post from './post.js';
+import { connectToDatabase, PostRepository } from '@repo/db';
+import { getObjectDownloadUrl } from '@repo/file-storage';
+import { connectProducer, publishPostApproved, runConsumer, TOPICS } from '@repo/queue';
 import { GeminiModerationService } from './services/geminiModerationService.js';
+
+await connectToDatabase();
 
 const moderationService = new GeminiModerationService(process.env.GEMINI_API_KEY ?? '');
 
-const upload = multer({
-  storage: multer.memoryStorage(),
-  limits: { files: 5, fileSize: 8 * 1024 * 1024 }, // max 5 × 8 MB
+await runConsumer('content-filter', TOPICS.POST_CREATED, async (value) => {
+  const { postId } = JSON.parse(value.toString()) as { postId: string };
+  if (!postId) {
+    console.warn('[content-filter] postId is missing in message:', value.toString());
+    return;
+  }
+
+  const post = await PostRepository.getPostById(postId);
+  if (!post) {
+    console.warn(`[content-filter] post not found: ${postId}`);
+    return;
+  }
+
+  const mediaFiles =
+    post.mediaFiles && post.mediaFiles.length
+      ? await Promise.all(
+          post.mediaFiles.map(async (f) => ({
+            url: await getObjectDownloadUrl(f.path), // S3 key → URL
+            filename: f.filename,
+            mimetype: f.mimetype,
+            size: f.size,
+          })),
+        )
+      : undefined;
+  console.log(`[content-filter] post ${postId} found, media files:`, mediaFiles);
+
+  const verdict = await moderationService.checkPost({
+    text: post.text,
+    socialPlatform: post.socialPlatform,
+    mediaFiles,
+  });
+
+  await PostRepository.updatePostStatus(
+    postId,
+    verdict.isApproved ? 'approved' : 'rejected',
+    verdict.reason,
+  );
+
+  if (verdict.isApproved) {
+    console.log(`[content-filter] post ${postId} approved, publishing to queue`);
+    await connectProducer();
+    await publishPostApproved(post._id.toString());
+  }
+
+  console.log(
+    `[content-filter] post ${postId} → ${verdict.isApproved ? 'approved' : 'rejected'} (${verdict.reason})`,
+  );
 });
 
-const app = express();
-app.use(express.json());
-
-app.get('/healthz', (_req, res) => res.send('OK'));
-
-app.post(
-  '/moderatePost',
-  upload.fields([
-    { name: 'mediaFiles', maxCount: 5 },
-    { name: 'post', maxCount: 1 },
-  ]),
-  async (req, res) => {
-    const postField = (req.body.post ?? req.body)?.toString?.();
-    if (!postField) {
-      return res.status(400).json({ error: 'post field missing' });
-    }
-
-    const post: Post = JSON.parse(postField);
-    post.mediaFiles = req.files?.mediaFiles as Express.Multer.File[] | undefined;
-
-    if (!post.text || !post.socialPlatform) {
-      return res.status(400).json({ error: 'text and socialPlatform required' });
-    }
-
-    const verdict = await moderationService.checkPost(post);
-    return res.json(verdict);
-  },
-);
-
-const port = Number(process.env.PORT) || 40001;
-app.listen(port, () => console.log(`[content-filter] listening on :${port}`));
+console.log('[content-filter] worker running & listening to Kafka');

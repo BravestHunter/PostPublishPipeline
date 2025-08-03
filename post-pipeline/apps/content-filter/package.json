@@ -13,14 +13,13 @@
   "dependencies": {
     "@google/genai": "^1.12.0",
     "@repo/db": "workspace:^",
-    "dotenv": "^17.2.1",
-    "express": "^4.21.2",
-    "multer": "^2.0.2"
+    "@repo/file-storage": "workspace:^",
+    "@repo/queue": "workspace:^",
+    "dotenv": "^17.2.1"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:^",
     "@repo/typescript-config": "workspace:^",
-    "@types/express": "^5.0.3",
     "@types/multer": "^2.0.0",
     "tsup": "^8.5.0"
   }

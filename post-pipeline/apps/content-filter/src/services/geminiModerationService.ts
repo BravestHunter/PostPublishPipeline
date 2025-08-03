@@ -4,7 +4,19 @@ import {
   HarmBlockThreshold,
   HarmCategory,
 } from '@google/genai';
-import Post from '../post.js';
+
+export interface ModerationMedia {
+  url: string;
+  filename: string;
+  mimetype: string;
+  size: number;
+}
+
+export interface ModerationInput {
+  text: string;
+  socialPlatform: string;
+  mediaFiles?: ModerationMedia[];
+}
 
 export interface ModerationResult {
   isApproved: boolean;
@@ -19,11 +31,10 @@ export class GeminiModerationService {
     this.client = new GoogleGenAI({ apiKey });
   }
 
-  async checkPost(post: Post): Promise<ModerationResult> {
+  async checkPost(post: ModerationInput): Promise<ModerationResult> {
     const moderationPrompt = `
       You are a strict content-moderation assistant for a user-generated content pipeline.
-      Given the post text and a social platform name, decide whether the post is ACCEPTABLE under the following community guidelines for ${post.socialPlatform}. The guidelines prohibit content that is:
-      - Spam.
+      Given the post text and a social platform name, decide whether the post is ACCEPTABLE under the following community guidelines for ${post.socialPlatform}.
 
       Return **ONLY** JSON with these keys:
       - isApproved — true or false
@@ -31,13 +42,7 @@ export class GeminiModerationService {
     `.trim();
     const fullPrompt = `${moderationPrompt}\n\nPost Text: "${post.text}"\nSocial Platform: "${post.socialPlatform}"`;
 
-    const mediaParts =
-      post.mediaFiles?.map((file) => ({
-        inlineData: {
-          mimeType: file.mimetype,
-          data: file.buffer.toString('base64'),
-        },
-      })) ?? [];
+    const mediaParts = await this.buildMediaParts(post.mediaFiles);
 
     const requestParameters: GenerateContentParameters = {
       model: 'gemini-2.5-pro',
@@ -110,5 +115,30 @@ export class GeminiModerationService {
         reason: 'Gemini moderation failed.',
       };
     }
+  }
+
+  private async buildMediaParts(files?: ModerationMedia[]) {
+    if (!files || files.length === 0) return [];
+
+    const parts: { inlineData: { mimeType: string; data: string } }[] = [];
+
+    for (const file of files) {
+      try {
+        const res = await fetch(file.url);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const arrayBuffer = await res.arrayBuffer();
+        const base64 = Buffer.from(arrayBuffer).toString('base64');
+        parts.push({
+          inlineData: {
+            mimeType: file.mimetype,
+            data: base64,
+          },
+        });
+      } catch (err) {
+        console.warn('[GeminiModeration] Failed to fetch media', file.url, err);
+      }
+    }
+
+    return parts;
   }
 }

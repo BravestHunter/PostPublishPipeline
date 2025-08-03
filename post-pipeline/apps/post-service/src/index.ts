@@ -1,10 +1,12 @@
 import 'dotenv/config';
 import { connectToDatabase, PostRepository } from '@repo/db';
 import { upload } from '@repo/file-storage';
+import { connectProducer, publishPostCreated } from '@repo/queue';
 import express from 'express';
 import { z } from 'zod';
 
 await connectToDatabase();
+await connectProducer();
 
 const app = express();
 
@@ -34,6 +36,8 @@ app.post('/posts', upload.array('mediaFiles', 5), async (req, res) => {
       mediaFiles,
       status: 'pending',
     });
+
+    await publishPostCreated(post._id.toString());
 
     res.status(201).json({ id: post._id.toString() });
   } catch (err) {
