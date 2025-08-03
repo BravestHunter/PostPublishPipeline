@@ -17,6 +17,8 @@ An experimental micro‑service pipeline that moderates and publishes user‑gen
 
 ## Architecture
 
+![](./images/architecture.png)
+
 The repository models a **Post publishing pipeline** consisting of three asynchronous services communicating over **Kafka** queues:
 
 | Service            | Responsibility                                                                 |
