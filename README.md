@@ -11,9 +11,8 @@ An experimental micro‑service pipeline that moderates and publishes user‑gen
   * [Setup](#setup)
   * [Running the Services](#running-the-services)
   * [Local Environment Dashboards](#local-environment-dashboards)
-  * [API Collection](#api-collection)
-  * [Clean‑up](#clean-up)
-* [License](#license)
+  * [Postman](#postman)
+  * [Clean‑up](#cleanup)
 
 ## Architecture
 
@@ -85,7 +84,7 @@ pnpm dev # Starts all services + watchers
 
 Import the Post API collection from [`./postman/PostAPI.postman_collection.json`](./postman/PostAPI.postman_collection.json).
 
-### Clean‑up
+### Cleanup
 
 ```bash
 pnpm env:cleanup # Removes all Docker Compose resources
