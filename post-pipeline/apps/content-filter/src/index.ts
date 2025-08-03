@@ -40,5 +40,5 @@ app.post(
   },
 );
 
-const port = Number(process.env.PORT) || 8080;
+const port = Number(process.env.PORT) || 40001;
 app.listen(port, () => console.log(`[content-filter] listening on :${port}`));

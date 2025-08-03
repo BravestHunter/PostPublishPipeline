@@ -1,0 +1,8 @@
+{
+  "name": "@repo/docker-dev",
+  "private": true,
+  "scripts": {
+    "dev": "docker-compose up",
+    "db:reset": "docker-compose rm --force --stop mongo && docker-compose up -d"
+  }
+}

@@ -18,5 +18,12 @@
       "persistent": true
     }
   },
-  "globalEnv": ["GEMINI_API_KEY", "PORT"]
+  "globalEnv": [
+    "GEMINI_API_KEY",
+    "PORT",
+    "MONGODB_URI",
+    "MONGODB_DB",
+    "MONGODB_USER",
+    "MONGODB_PASSWORD"
+  ]
 }
